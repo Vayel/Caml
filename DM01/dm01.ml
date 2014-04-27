@@ -1,9 +1,3 @@
-(* 
-  LEFOULON Vincent
-  Option info : DM 1
-  Camllight
-*)
-
 (* Préliminaires *)
 (* 1. *)
 (*
