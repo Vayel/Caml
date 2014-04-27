@@ -121,14 +121,58 @@ let mulb n p =
 ;;
 
 (* III.6. *)
-let rec mul_naive_aux l1 l2 l = 
-	match l1, l2 with
-  	| _ -> Naturel []
+(*
+	Pour chaque chiffre c de l2, faire c * l1 * base^k
+	et l'ajouter à acc
+*)
+let rec mul_naive_aux n1 l2 k acc = 
+	match l2 with
+  	| [] -> acc
+		| x::r -> mul_naive_aux n1 r (k+1) (ajoute acc (mulb (mulc x n1) k)) 
 ;;
 
 let mul_naive n1 n2 = 
 	match n1, n2 with
-		| Naturel l1, Naturel [] -> Naturel []
-		| Naturel [], Naturel l2 -> Naturel []
-		| Naturel l1, Naturel l2 -> mul_naive_aux l1 l2 []
+		| Naturel l1, Naturel [] -> naturel []
+		| Naturel [], Naturel l2 -> naturel []
+		| _, Naturel l2 -> mul_naive_aux n1 l2 0 (naturel [])
 ;;
+
+(* III.7. *)
+(* TODO *)
+let divise n d =
+	0
+;;
+
+(* III.8. *)
+let rec divise_base_quotient l k =
+	match k, l with
+		| 0, _ -> naturel l
+		| _, [] -> naturel []
+		| _, x::r -> divise_base_quotient r (k-1) 
+;;
+
+let divise_base n k = 
+	match n with
+		| Naturel l -> let q = divise_base_quotient l k in
+										(q, soustrait n (mulb q k))
+;;
+
+(* IV. Méthode de Karatsuba *)
+(* IV.1. *)
+(* TODO *)
+let split n =
+	let k = nb_chiffres n in
+	let k' = if (k mod 2) = 0 then k/2 else (k+1)/2 in
+	let b = 0 in
+	let a = soustrait n (mulb b k') in
+		(k', a, b)
+;;
+
+(* IV.2. *)
+(* TODO *)
+
+
+(* IV.3. *)
+(* TODO *)
+

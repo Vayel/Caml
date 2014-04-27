@@ -37,25 +37,28 @@ let n1 = naturel [22];;
 mulb n1 2;; (* [0;0;2;2] *)
 
 (* III.6. *)
+let n1 = naturel [15];;
+let n2 = naturel [5;0];;
+mul_naive n1 n2;; (* [5;7] = 75 *)
+mul_naive n1 n1;; (* [5;2;2] = 225 *)
+
+(* III.7. *)
 
 
+(* III.8. *)
+let n1 = naturel [15];;
+let n2 = naturel [5;0];;
+divise_base n1 0;; (* ([5;1], []) *)
+divise_base n1 1;; (* ([1], [5]) *)
+divise_base n1 2;; (* ([], [5;1]) *)
+divise_base n1 3;; (* ([], [5;1]) *)
+
+(* IV.1. *)
+let n1 = naturel [1;2;3;4;5;0];;
+split n1;;
+
+(* IV.2. *)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+(* IV.3. *)
 
