@@ -91,7 +91,11 @@ let rec compare_aux l1 l2 =
 
 let compare p q = 
 	match p, q with
-  	| Naturel l1, Naturel l2 -> compare_aux (rev l1) (rev l2)
+  	| Naturel l1, Naturel l2 -> let pLen = nb_chiffres p in
+                                let qLen = nb_chiffres q in
+                                if pLen > qLen then 1
+                                else if qLen > pLen then -1
+                                else compare_aux (rev l1) (rev l2)
 ;;
 
 (* III.4. *)
@@ -139,9 +143,14 @@ let mul_naive n1 n2 =
 ;;
 
 (* III.7. *)
-(* TODO *)
+let rec divise_aux d q r =
+  match compare r d with
+    | -1 -> (q, r) (* r < d *)
+    | _ -> divise_aux d (ajoute (naturel [1]) q) (soustrait r d)
+;;
+
 let divise n d =
-	0
+  divise_aux (naturel [d]) (naturel []) n
 ;;
 
 (* III.8. *)
@@ -161,6 +170,7 @@ let divise_base n k =
 (* IV. Méthode de Karatsuba *)
 (* IV.1. *)
 (* TODO *)
+(*
 let split n =
 	let k = nb_chiffres n in
 	let k' = if (k mod 2) = 0 then k/2 else (k+1)/2 in
@@ -168,7 +178,7 @@ let split n =
 	let a = soustrait n (mulb b k') in
 		(k', a, b)
 ;;
-
+*)
 (* IV.2. *)
 (* TODO *)
 
