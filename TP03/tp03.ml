@@ -172,21 +172,62 @@ let divise_base n k =
 ;;
 
 (* IV. Méthode de Karatsuba *)
+let seuil = 3;;
+
 (* IV.1. *)
-(* TODO *)
+let slice n b e = 
+  let rec aux i l =
+    if i < b then naturel l
+    else aux (i-1) ((chiffre n i)::l)
+  in
+  aux (e-1) []
+;;
 (*
+  n = a + bB
+  k' = ceil(k/2)
+  a contient les k' premiers chiffres de n et b ceux restant.
+*)
 let split n =
   let k = nb_chiffres n in
-  let k' = if (k mod 2) = 0 then k/2 else (k+1)/2 in
-  let b = 0 in
-  let a = soustrait n (mulb b k') in
+  let k' = if (k mod 2) = 0 then k/2 else (k+1)/2 in 
+  let a = slice n 0 k' in
+  let b = slice n k' k in
     (k', a, b)
 ;;
-*)
-(* IV.2. *)
-(* TODO *)
 
+(* IV.2. *)
+(*
+  n = a + bB
+  Donc n*n = a² + ((a + b)² - a² - b²)B + b²B²
+*)
+let rec carre n =
+  let len = nb_chiffres n in
+  if len < seuil then mul_naive n n
+  else begin
+    let (k, a, b) = split n in
+    let a2 = carre a in
+    let b2 = carre b in
+      ajoute (ajoute a2 (mulb (soustrait (soustrait (carre (ajoute a b)) a2) b2) k)) (mulb b2 (2*k))
+  end
+;;
 
 (* IV.3. *)
-(* TODO *)
+(*
+  n1 * n2 = ((n1 + n2)² - (n1 - n2)²)/4
+  On pose : a = n1 + n2 et b = n1 - n2.
+  Alors n1 * n2 = (a² - b²)/4
+*)
+let min_nat n1 n2 =
+  if (compare n1 n2) >= 0 then n2
+  else n1
+;;
 
+let mul n1 n2 =
+  let p, q = if (min_nat n1 n2) = n1 then n2, n1 else n1, n2 in
+  let a = ajoute p q in
+  let b = soustrait p q in
+  let c1 = carre a in
+  let c2 = carre b in
+  let (q, r) = divise (soustrait c1 c2) 4 in
+    q
+;;

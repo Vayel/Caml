@@ -69,13 +69,34 @@ divise_base n1 2;; (* ([], [5;1]) *)
 divise_base n1 3;; (* ([], [5;1]) *)
 
 (* IV.1. *)
-(*
-let n1 = naturel [1;2;3;4;5;0];;
-split n1;;
-*)
+print_string "\n slice :";;
+slice (naturel []) 0 0;; (* [] *)
+slice (naturel [1]) 0 1;; (* [1] *)
+slice (naturel [1;2;3;4;5]) 1 4;; (* [2;3;4] *)
+
+print_string "\n split :";;
+let n1 = naturel [];;
+let n2 = naturel [1];;
+let n3 = naturel [1;2;3;4;5];;
+split n1;; (* (0, [], []) *)
+split n2;; (* (1, [1], []) *)
+split n3;; (* (3, [1;2;3], [4;5]) *)
 
 (* IV.2. *)
-
+let n1 = naturel [];;
+let n2 = naturel [1];;
+let n3 = naturel [5];;
+let n4 = naturel [13];;
+carre n1;; (* [] *)
+carre n2;; (* [1] *)
+carre n3;; (* [5;2] *)
+carre n4;; (* [9;6;1] *)
 
 (* IV.3. *)
-
+let n1 = naturel [];;
+let n2 = naturel [1];;
+let n3 = naturel [5];;
+let n4 = naturel [3];;
+mul n1 n2;; (* [] *)
+mul n2 n3;; (* [5] *)
+mul n3 n4;; (* [5;1] *)
