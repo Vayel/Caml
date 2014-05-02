@@ -49,11 +49,24 @@ let chiffre n i = match n with
 ;;
 
 (* III. Opérations élémentaires *)
+(*
+	Le pattern matching est un O(1).
+	Un cons est un O(1).
+	rev est un O(n).
+	+, -, *... sont un O(1).
+*)
+
 (* III.1. *)
+(*
+	ajoute() fait uniquement un appel à ajoute_aux().
+	ajoute_aux() parcoure l1 et l2 puis fait appel à rev. 
+	Donc ajoute() est un O(n).
+*)
 let rec ajoute_aux l1 l2 l = 
   match l1, l2 with
-    | r, [] -> (rev l) @ r
-    | [], r -> (rev l) @ r
+    | [], [] -> rev l
+    | x::r, [] -> ajoute_aux r [] (x::l)
+    | [], x::r -> ajoute_aux [] r (x::l)
     | x1::r1, x2::r2 -> ajoute_aux r1 r2 ((x1+x2)::l)
 ;;
 
@@ -63,6 +76,9 @@ let ajoute n1 n2 =
 ;;
 
 (* III.2. *)
+(*
+	Par un raisonnement analogue à ajoute(), soustrait() est un O(n).
+*)
 let rec soustrait_aux l1 l2 l = 
   match l1, l2 with
     | [], [] -> rev l
@@ -78,6 +94,12 @@ let soustrait n1 n2 =
 ;;
 
 (* III.3. *)
+(*
+	nb_chiffres() est un O(n).
+	compare_aux() parcoure les listes et ne fait que des opérations 
+	élémentaires à chaque tour. Elle est donc un O(n).
+	compare() est donc un O(n).
+*)
 let rec compare_aux l1 l2 = 
   match l1, l2 with
     | [], [] -> 0
@@ -103,6 +125,11 @@ let compare p q =
 ;;
 
 (* III.4. *)
+(*
+	mulc() fait un appel à mulc_aux() qui parcoure l.
+	A chaque tour, des opérations élémentaires sont faites.
+	Donc mulc() est un O(n).
+*)
 let rec mulc_aux p n l = 
   match n with
     | [] -> rev l
@@ -116,6 +143,12 @@ let mulc p n =
 ;;
 
 (* III.5. *)
+(*
+	mulb() fait un appel à prepend().
+	prepend() s'appelle elle-même p fois et effectue des opérations
+	élémentaires à chaque tour.
+	mulb() est donc un O(p).
+*)
 let rec prepend x l n = 
   match n with
     | 0 -> l
@@ -131,7 +164,9 @@ let mulb n p =
 (* III.6. *)
 (*
   Pour chaque chiffre c de l2, faire c * l1 * base^k
-  et l'ajouter à acc
+  et l'ajouter à acc.
+  mul_naive() fait un appel à mul_naive_aux().
+  mul_naive_aux() parcoure l2. TODO
 *)
 let rec mul_naive_aux n1 l2 k acc = 
   match l2 with
