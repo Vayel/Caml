@@ -309,18 +309,26 @@ let force_brute_array req =
 (* III.5. *)
 (*
   force_brute_list :
-  	- Appel à enum() : O() + O() + O() = O()
-  	- Calcul du coût de chaque séquence de déplacements : O()
+  	- Appel à enum() : O(2^{n})
+  	- Calcul du coût de chaque séquence de déplacements : O(n)
   	- Renvoi le minimum d'une liste : O(n) 
-  	force_brute_list() est donc un O().
-  	TODO
+  	force_brute_list() est donc un O(2^{n}).
+  	
+  	Côté mémoire, enum() crée 2^{n} listes de taille n, n étant la longueur de 
+  	la séquence de requêtes.
+  	Dans costs sont donc stockés 2^{n} nombres.
+  	L'espace mémoire maximal utilisé est alors de n * 2^{n} + 2^{n}.
   	
   force_brute_array :
   	- Calcul de la taille de req : O(n)
-  	- Appel à range() : O()
-  	- len appels à binaire() puis cout_array() : O()
-  	force_brute_array() est donc un O().
-  	TODO
+  	- Appel à range() : O(2^{n})
+  	- n appels à binaire() : O(n^{2})
+  	- n appels à cout_array() : O(n)
+  	force_brute_array() est donc un O(2^{n}).
+  	
+  	Côté mémoire, on stocke un nombre dans len, une liste de taille 2^{n} dans r
+  	et un nombre dans m.
+  	L'espace mémoire maximal utilisé est alors de 2^{n}.
 *)
 
 (* IV. *)
@@ -392,8 +400,6 @@ let cout_opt req =
   - environ n appels à update() : O($\sum_{k=1}^{n-1} (k)$) = O(n*n)
   - min_array : O(n)
   cout_opt() est donc un O(n*n).
-  
-  En espace, cout_opt() TODO
   
   En effectuant 10^{9} opérations à la seconde, on en fait 10^{6} en
   une milliseconde. 
