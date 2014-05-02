@@ -182,6 +182,10 @@ let mul_naive n1 n2 =
 ;;
 
 (* III.7. *)
+(*
+	divise() fait un appel à divise_aux().
+	TODO
+*)
 let rec divise_aux d q r =
   match compare r d with
     | -1 -> (q, r) (* r < d *)
@@ -193,6 +197,9 @@ let divise n d =
 ;;
 
 (* III.8. *)
+(*
+	TODO
+*)
 let rec divise_base_quotient l k =
   match k, l with
     | 0, _ -> naturel l
@@ -210,6 +217,11 @@ let divise_base n k =
 let seuil = 3;;
 
 (* IV.1. *)
+(*
+	- appel à nb_chiffres() : O(n)
+	- deux appels à slice() : O(n)
+	split() est donc un O(n).
+*)
 let slice n b e = 
   let rec aux i l =
     if i < b then naturel l
@@ -234,6 +246,9 @@ let split n =
 (*
   n = a + bB
   Donc n*n = a² + ((a + b)² - a² - b²)B + b²B²
+  
+  - appel à nb_chiffres() : O(n)
+  TODO
 *)
 let rec carre n =
   let len = nb_chiffres n in
@@ -251,6 +266,7 @@ let rec carre n =
   n1 * n2 = ((n1 + n2)² - (n1 - n2)²)/4
   On pose : a = n1 + n2 et b = n1 - n2.
   Alors n1 * n2 = (a² - b²)/4
+  TODO
 *)
 let min_nat n1 n2 =
   if (compare n1 n2) >= 0 then n2
