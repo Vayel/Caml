@@ -259,6 +259,8 @@ let force_brute_map req =
 
 (*
   int list -> int
+  On génère toutes les possibilités de déplacements via enum(),
+  puis on calcule le coût de chaque séquence et retourne le minimum.
 *)
 let force_brute_list req =
   let e = enum (list_length req) in
@@ -277,6 +279,8 @@ let binaire n nb_bits =
 (* III.3.b. *)
 (*
   int vect -> int
+  On génère toutes les possibilités de séquences de déplacements 
+  puis on calcule le coût pour chacune et retourne le minimum.
 *)
 let force_brute_array req =
   let len = vect_length req in
@@ -304,18 +308,35 @@ let force_brute_array req =
 
 (* III.5. *)
 (*
-  TODO
+  force_brute_list :
+  	- Appel à enum() : O() + O() + O() = O()
+  	- Calcul du coût de chaque séquence de déplacements : O()
+  	- Renvoi le minimum d'une liste : O(n) 
+  	force_brute_list() est donc un O().
+  	TODO
+  	
+  force_brute_array :
+  	- Calcul de la taille de req : O(n)
+  	- Appel à range() : O()
+  	- len appels à binaire() puis cout_array() : O()
+  	force_brute_array() est donc un O().
+  	TODO
 *)
 
 (* IV. *)
-(* IV.2.a. *)
+(* IV.1. *)
 (*
   \lbrace \lbrace 0, r_{n} \rbrace \rbrace \cup \lbrace \lbrace r_{k}, r_{n} \rbrace, k \in ℕ, 1 \leq k \leq n-1 \rbrace
 *)
 
-(* IV.2.b. *)
+(* IV.2.a. *)
 (*
   t_{3} = (t_{3, 0}, t_{3, 1}, t_{3, 2}) = (23, 21, 20)
+*)
+
+(* IV.2.b. *)
+(*
+  TODO
 *)
 
 (* IV.2.c. *)
@@ -326,6 +347,7 @@ let force_brute_array req =
 (* IV.2.d. *)
 (*
   int vect -> int vect -> int -> int vect
+  On génère simplement t_{k+1} selon IV.2.c.
 *)
 let update tk req k =
   let t = make_vect (k+1) 0 in
@@ -341,7 +363,7 @@ let update tk req k =
 
 (* IV.2.e. *)
 (*
-  TODO
+  update() est clairement un O(k).
 *)
 
 (* IV.3. *)
@@ -349,10 +371,11 @@ let update tk req k =
   int vect -> int
   Retourne le coût optimal pour la séquence de requêtes req.
   req est de la forme [|r_{1};r_{2};r_{3};...|].
+  On calcule t_{n} et retourne son minimum.
 *)
 let cout_opt req =
   let r = concat_vect [|0|] req in
-  let n = (vect_length r) - 1 in
+  let n = vect_length req in
   let tk = ref [|r.(1)|] in
   for k = 1 to (n-1) do
     (* tk = t_{k} *)
@@ -365,7 +388,17 @@ let cout_opt req =
 
 (* IV.4. *)
 (*
-  TODO
+  - appel à vect_length : O(n)
+  - environ n appels à update() : O($\sum_{k=1}^{n-1} (k)$) = O(n*n)
+  - min_array : O(n)
+  cout_opt() est donc un O(n*n).
+  
+  En espace, cout_opt() TODO
+  
+  En effectuant 10^{9} opérations à la seconde, on en fait 10^{6} en
+  une milliseconde. 
+  On peut donc espérer traiter une séquence de requêtes d'une taille de l'ordre 
+  de $ \sqrt[2]{10^{6}} = 1000$. 
 *)
 
 (* V. *)
