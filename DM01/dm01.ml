@@ -334,21 +334,65 @@ let force_brute_array req =
 (* IV. *)
 (* IV.1. *)
 (*
+	On aura nécessairement une tête en position r_{n}. L'autre peut alors prendre 
+	toutes les autres places possibles. L'emsemble des paires de positions est donc :
+	 
   \lbrace \lbrace 0, r_{n} \rbrace \rbrace \cup \lbrace \lbrace r_{k}, r_{n} \rbrace, k \in ℕ, 1 \leq k \leq n-1 \rbrace
 *)
 
 (* IV.2.a. *)
 (*
-  t_{3} = (t_{3, 0}, t_{3, 1}, t_{3, 2}) = (23, 21, 20)
+  On obtient :
+  
+  $t_{3} = (t_{3, 0}, t_{3, 1}, t_{3, 2}) = (23, 21, 20)$
 *)
 
 (* IV.2.b. *)
 (*
-  TODO
+	Soit $k \in ℕ$*.  
+	Considérons la séquence de requêtes : $req_{k} = (r_{1}, ..., r_{k}).$  
+  Notons $dep_{k} = (d_{1}, ..., d_{k})$ la séquence de déplacements optimale, de 
+  sorte que $d_{k}$ vaille 1, quitte à inverser chaque $d_{i}$, en vertu de la 
+  remarque III.4.
+  
+  $\forall i \in ℕ, 0 \leq i \leq k-1$, notons $dep_{k,i} = (d_{1,i}, ..., d_{k,i})$ 
+  une séquence de déplacements ayant le coût $t_{k,i}$ et telle que $r_{i}$ ait été 
+  satisfaite par la tête 0 et que $\forall j \in ℕ, i+1 \leq j \leq k, r_{j}$ l'ait 
+  été par la tête 1.  
+  On a : $\forall i \in ℕ, 0 \leq i \leq k-1, d_{k} = d_{k,i}.$
+  
+  Soit i = k-1. **(#)**  
+  Alors on peut faire coïncider $dep_{k,i}$ avec $dep_{k}$ sur les (i-1) premiers 
+  déplacements vu que $dep_{k,i}$ n'a pas de contraintes sur ces derniers.  
+  Distinguons deux cas pour le $i^{ème}$ :
+  
+  * Si $d_{i} = d_{i,i}$, i.e. $d_{k-1} = d_{k-1,i}$ :  
+  Alors $\forall j \in ℕ, 1 \leq i \leq k, d_{j} = d_{j,i}$ donc la séquence de 
+  déplacements optimale est réalisée et $t_{k,i}$ sera bien le coût de cette 
+  dernière.
+  
+  * Si $d_{i} \neq d_{i,i}$, i.e. $d_{k-1} \neq  d_{k-1,i}$ :  
+  Alors $d_{i} = 1$ puisque $d_{i,i} = 0$, donc on pose i = k-2 pour avoir $d_{k-1,i} = 1$ 
+  et on recommence à **(#)**. 
+  On tombera alors nécessairement sur le point précédent pour un certain i puisque 
+  si l'on atteint i = 0, cela veut dire que $\forall j \in ℕ, 1 \leq i \leq k, 
+  d_{j} = 1$ et donc $t_{k,0}$ sera bien le coût de la séquence optimale.
+  
+  Donc le coût minimal pour satisfaire $req_{k}$ est bien égal au minimum de $t_{k}$.
 *)
 
 (* IV.2.c. *)
 (*
+  Soient $n \in ℕ$*, $k, i \in ℕ, 1 \leq k \leq n-1, 0 \leq i \leq k$.
+  
+  * Si $i \leq k-1$ :  
+  La requête $r_{k+1}$ ne pourra être satisfaite que par la tête 1. Or, dans le 
+  cas présent, la tête se situe en $r_{k}$. Donc $t_{k+1,i}$ vaut bien le coût 
+  $t_{k,i}$, puisque les i premiers déplacements ne changent pas, 
+  plus le coût du déplacement de la tête 1 de $r_{k}$ vers $r_{k+1}$. 
+  Donc $t_{k+1,i}$ = $t_{k,i} + |r_{k+1} - r_{k}|$.
+  
+  * Si $i = k$ :  
   TODO
 *)
 
