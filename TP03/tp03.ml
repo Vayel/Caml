@@ -58,6 +58,7 @@ let chiffre n i = match n with
 
 (* III.1. *)
 (*
+	Complexité :
 	ajoute() fait uniquement un appel à ajoute_aux().
 	ajoute_aux() parcoure l1 et l2 puis fait appel à rev. 
 	Donc ajoute() est un O(n).
@@ -77,6 +78,7 @@ let ajoute n1 n2 =
 
 (* III.2. *)
 (*
+	Complexité :
 	Par un raisonnement analogue à ajoute(), soustrait() est un O(n).
 *)
 let rec soustrait_aux l1 l2 l = 
@@ -95,6 +97,7 @@ let soustrait n1 n2 =
 
 (* III.3. *)
 (*
+	Complexité :
 	nb_chiffres() est un O(n).
 	compare_aux() parcoure les listes et ne fait que des opérations 
 	élémentaires à chaque tour. Elle est donc un O(n).
@@ -126,6 +129,7 @@ let compare p q =
 
 (* III.4. *)
 (*
+	Complexité :
 	mulc() fait un appel à mulc_aux() qui parcoure l.
 	A chaque tour, des opérations élémentaires sont faites.
 	Donc mulc() est un O(n).
@@ -144,6 +148,7 @@ let mulc p n =
 
 (* III.5. *)
 (*
+	Complexité :
 	mulb() fait un appel à prepend().
 	prepend() s'appelle elle-même p fois et effectue des opérations
 	élémentaires à chaque tour.
@@ -162,12 +167,6 @@ let mulb n p =
 ;;
 
 (* III.6. *)
-(*
-  Pour chaque chiffre c de l2, faire c * l1 * base^k
-  et l'ajouter à acc.
-  mul_naive() fait un appel à mul_naive_aux().
-  mul_naive_aux() parcoure l2. TODO
-*)
 let rec mul_naive_aux n1 l2 k acc = 
   match l2 with
     | [] -> acc
@@ -182,10 +181,6 @@ let mul_naive n1 n2 =
 ;;
 
 (* III.7. *)
-(*
-	divise() fait un appel à divise_aux().
-	TODO
-*)
 let rec divise_aux d q r =
   match compare r d with
     | -1 -> (q, r) (* r < d *)
@@ -198,7 +193,12 @@ let divise n d =
 
 (* III.8. *)
 (*
-	TODO
+	Complexité :
+	divise_base() appelle divise_base_quotient() qui est 
+	clairement un O(k).
+	Puis la fonction appelle soustrait() qui est un O(n) et 
+	mulb() qui est un O(k).
+	divise_base() est donc un O(n) ou O(k), selon l'étude.
 *)
 let rec divise_base_quotient l k =
   match k, l with
@@ -217,11 +217,6 @@ let divise_base n k =
 let seuil = 3;;
 
 (* IV.1. *)
-(*
-	- appel à nb_chiffres() : O(n)
-	- deux appels à slice() : O(n)
-	split() est donc un O(n).
-*)
 let slice n b e = 
   let rec aux i l =
     if i < b then naturel l
@@ -229,10 +224,16 @@ let slice n b e =
   in
   aux (e-1) []
 ;;
+
 (*
   n = a + bB
   k' = ceil(k/2)
   a contient les k' premiers chiffres de n et b ceux restant.
+  
+  Complexité :
+  - appel à nb_chiffres() : O(n)
+	- deux appels à slice() : O(n)
+	split() est donc un O(n).
 *)
 let split n =
   let k = nb_chiffres n in
@@ -246,9 +247,6 @@ let split n =
 (*
   n = a + bB
   Donc n*n = a² + ((a + b)² - a² - b²)B + b²B²
-  
-  - appel à nb_chiffres() : O(n)
-  TODO
 *)
 let rec carre n =
   let len = nb_chiffres n in
@@ -266,7 +264,6 @@ let rec carre n =
   n1 * n2 = ((n1 + n2)² - (n1 - n2)²)/4
   On pose : a = n1 + n2 et b = n1 - n2.
   Alors n1 * n2 = (a² - b²)/4
-  TODO
 *)
 let min_nat n1 n2 =
   if (compare n1 n2) >= 0 then n2
