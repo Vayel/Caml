@@ -16,7 +16,15 @@ let int_of_bool b =
 ;;
 
 (* 1. *)
-(* 'a array -> 'a array -> int *)
+(* 
+'a array -> 'a array -> int 
+
+Complexité en temps :
+
+Soit (i, j) \in N^2.
+Notons T(i, j) le temps d'exécution de (aux i j).
+On a alors : T(i, j) = T(i-1, j) + T(i, j-1) + T(i-1, j-1) + C 
+*)
 let distance_naive x y =
   let rec aux i j = (* Renvoie dl(xi, yj) *)
     match i, j with
@@ -33,6 +41,13 @@ let distance_naive x y =
 ;;
 
 (* 2. *)
+(*
+'a array -> 'a array -> int 
+
+Complexité en temps :
+
+Complexité en mémoire :
+*)
 let distance_memo x y =
   let xLen = Array.length x in
   let yLen = Array.length y in
@@ -62,7 +77,21 @@ let distance_memo x y =
 
 (* 3. *)
 (*
-  On remplit la matrice et retourne l'élément en bas à droite.
+'a array -> 'a array -> int 
+
+On remplit la matrice et retourne l'élément en bas à droite.
+
+Complexité en temps :
+Notons n = max(Array.length x, Array.length y).
+- Calcul de xLen : O(1)
+- Calcul de yLen : O(1)
+- Création de mat : O(n^2)
+- Parcours des boucles : O(n^2)
+Donc distance est un O(n^2).
+
+Complexité en mémoire :
+On a quelques variables plus une matrice de taille n * n donc 
+distance est clairement un O(n^2).
 *)
 let distance x y =
   let xLen = Array.length x in
@@ -88,9 +117,25 @@ let distance x y =
 
 (* 4. *)
 (*
-  Pour obtenir dl(x_{i}, y_{j}), il n'est pas nécessaire de tout connaître,
-  seulement dl(x_{i}, y_{j-1}), dl(x_{i-1}, y_{j}), dl(x_{i-1}, y_{j-1}).
-  Du coup, on ne conserve qu'une matrice (n, 2).
+'a array -> 'a array -> int 
+
+Pour obtenir dl(x_{i}, y_{j}), il n'est pas nécessaire de tout connaître,
+mais seulement dl(x_{i}, y_{j-1}), dl(x_{i-1}, y_{j}), dl(x_{i-1}, y_{j-1}).
+Du coup, on ne conserve qu'une matrice (n, 2).
+
+Complexité en temps :
+Notons n = max(Array.length x, Array.length y).
+- Calcul de xLen : O(1)
+- Calcul de yLen : O(1)
+- Création de currentCol : O(n)
+- Parcours de la première boucle : 
+  - Copie du tableau : O(n)
+  - Parcours de la seconde boucle : O(n^2)
+Donc distance_opt est un O(n^2).
+
+Complexité en mémoire :
+On a quelques variables plus deux tableaux de taille n donc 
+distance_opt est clairement un O(n).
 *)
 let distance_opt x y =
   let xLen = Array.length x in
@@ -113,3 +158,4 @@ let distance_opt x y =
   done;
   currentCol.(yLen)
 ;;
+
